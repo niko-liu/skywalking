@@ -56,6 +56,8 @@ public class NacosConfigWatcherRegister extends ConfigWatcherRegister {
         final Properties properties = new Properties();
         properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr + ":" + port);
         properties.put(PropertyKeyConst.NAMESPACE, settings.getNamespace());
+        properties.put(PropertyKeyConst.USERNAME, settings.getUserName());
+        properties.put(PropertyKeyConst.PASSWORD, settings.getPassword());
         this.configService = NacosFactory.createConfigService(properties);
     }
 
