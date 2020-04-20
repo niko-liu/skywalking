@@ -29,4 +29,6 @@ public class ClusterModuleNacosConfig extends ModuleConfig {
     @Setter @Getter private String serviceName;
     @Setter @Getter private String hostPort;
     @Setter @Getter private String namespace = "public";
+    @Setter @Getter private String userName;
+    @Setter @Getter private String password;
 }
