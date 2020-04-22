@@ -15,7 +15,7 @@
 # limitations under the License.
 
 cluster:
-  standalone:
+#  standalone:
   # Please check your ZooKeeper is 3.5+, However, it is also compatible with ZooKeeper 3.4.x. Replace the ZooKeeper 3.5+
   # library the oap-libs folder with your ZooKeeper 3.4.x library.
 #  zookeeper:
@@ -37,11 +37,13 @@ cluster:
 #    serviceName: ${SW_SERVICE_NAME:"SkyWalking_OAP_Cluster"}
 #     Consul cluster nodes, example: 10.0.0.1:8500,10.0.0.2:8500,10.0.0.3:8500
 #    hostPort: ${SW_CLUSTER_CONSUL_HOST_PORT:localhost:8500}
-#  nacos:
-#    serviceName: ${SW_SERVICE_NAME:"SkyWalking_OAP_Cluster"}
-#    hostPort: ${SW_CLUSTER_NACOS_HOST_PORT:localhost:8848}
+  nacos:
+    serviceName: ${SW_SERVICE_NAME:"SkyWalking_OAP_Cluster"}
+    hostPort: ${SW_CLUSTER_NACOS_HOST_PORT:localhost:8848}
 #  # Nacos Configuration namespace
-#    namespace: 'public'
+    namespace: 'public'
+    userName: ${SW_CLUSTER_NACOS_USER_NAME:"skywalking"}
+    password: ${SW_CLUSTER_NACOS_PASSWORD:"skywalking"}
 #  etcd:
 #    serviceName: ${SW_SERVICE_NAME:"SkyWalking_OAP_Cluster"}
 #     etcd cluster nodes, example: 10.0.0.1:2379,10.0.0.2:2379,10.0.0.3:2379
@@ -94,21 +96,21 @@ storage:
 #    resultWindowMaxSize: ${SW_STORAGE_ES_QUERY_MAX_WINDOW_SIZE:10000}
 #    metadataQueryMaxSize: ${SW_STORAGE_ES_QUERY_MAX_SIZE:5000}
 #    segmentQueryMaxSize: ${SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200}
-  h2:
-    driver: ${SW_STORAGE_H2_DRIVER:org.h2.jdbcx.JdbcDataSource}
-    url: ${SW_STORAGE_H2_URL:jdbc:h2:mem:skywalking-oap-db}
-    user: ${SW_STORAGE_H2_USER:sa}
-    metadataQueryMaxSize: ${SW_STORAGE_H2_QUERY_MAX_SIZE:5000}
-#  mysql:
-#    properties:
-#      jdbcUrl: ${SW_JDBC_URL:"jdbc:mysql://localhost:3306/swtest"}
-#      dataSource.user: ${SW_DATA_SOURCE_USER:root}
-#      dataSource.password: ${SW_DATA_SOURCE_PASSWORD:root@1234}
-#      dataSource.cachePrepStmts: ${SW_DATA_SOURCE_CACHE_PREP_STMTS:true}
-#      dataSource.prepStmtCacheSize: ${SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_SIZE:250}
-#      dataSource.prepStmtCacheSqlLimit: ${SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_LIMIT:2048}
-#      dataSource.useServerPrepStmts: ${SW_DATA_SOURCE_USE_SERVER_PREP_STMTS:true}
-#    metadataQueryMaxSize: ${SW_STORAGE_MYSQL_QUERY_MAX_SIZE:5000}
+#  h2:
+#    driver: ${SW_STORAGE_H2_DRIVER:org.h2.jdbcx.JdbcDataSource}
+#    url: ${SW_STORAGE_H2_URL:jdbc:h2:mem:skywalking-oap-db}
+#    user: ${SW_STORAGE_H2_USER:sa}
+#    metadataQueryMaxSize: ${SW_STORAGE_H2_QUERY_MAX_SIZE:5000}
+  mysql:
+    properties:
+      jdbcUrl: ${SW_JDBC_URL:"jdbc:mysql://localhost:3306/swtest"}
+      dataSource.user: ${SW_DATA_SOURCE_USER:root}
+      dataSource.password: ${SW_DATA_SOURCE_PASSWORD:root@1234}
+      dataSource.cachePrepStmts: ${SW_DATA_SOURCE_CACHE_PREP_STMTS:true}
+      dataSource.prepStmtCacheSize: ${SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_SIZE:250}
+      dataSource.prepStmtCacheSqlLimit: ${SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_LIMIT:2048}
+      dataSource.useServerPrepStmts: ${SW_DATA_SOURCE_USE_SERVER_PREP_STMTS:true}
+    metadataQueryMaxSize: ${SW_STORAGE_MYSQL_QUERY_MAX_SIZE:5000}
 receiver-sharing-server:
   default:
 receiver-register:
