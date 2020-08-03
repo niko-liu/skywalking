@@ -41,11 +41,8 @@ jobs:
       SW_SIMPLE_CASE: ${{ matrix.case }}
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout Submodules
-        shell: bash
-        run: |
-          git submodule sync --recursive
-          git -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        with:
+          submodules: true
       - name: Compile and Build
         run: make docker
       - name: Copy dist package
@@ -66,11 +63,8 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v2
-      - name: checkout submodules
-        shell: bash
-        run: |
-          git submodule sync --recursive
-          git -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        with:
+          submodules: true
       - name: Compile and Build
         run: make docker
       - name: Copy dist package
@@ -91,17 +85,36 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v2
-      - name: checkout submodules
-        shell: bash
-        run: |
-          git submodule sync --recursive
-          git -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        with:
+          submodules: true
       - name: Compile and Build
         run: make docker
       - name: Copy dist package
         run: cp -R dist test/e2e/
       - name: Uninstrumnented gateway
         run: ./mvnw --batch-mode -f test/e2e/pom.xml -am -DfailIfNoTests=false verify -Dit.test=org.apache.skywalking.e2e.GatewayE2E
+      - name: Report Coverage
+        run: bash -x tools/coverage/report.sh
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: logs
+          path: logs
+
+  FeatureGroup04:
+    name: Meter
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Compile and Build
+        run: make docker
+      - name: Copy dist package
+        run: cp -R dist test/e2e/
+      - name: Meter receiver
+        run: ./mvnw --batch-mode -f test/e2e/pom.xml -am -DfailIfNoTests=false verify -Dit.test=org.apache.skywalking.e2e.meter.MeterE2E
       - name: Report Coverage
         run: bash -x tools/coverage/report.sh
       - uses: actions/upload-artifact@v1
