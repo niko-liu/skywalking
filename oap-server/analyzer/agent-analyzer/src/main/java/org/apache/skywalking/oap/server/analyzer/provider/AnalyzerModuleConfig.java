@@ -68,7 +68,9 @@ public class AnalyzerModuleConfig extends ModuleConfig {
     @Getter
     private boolean traceAnalysis = true;
     /**
-     * Slow Sql string length can't beyond this limit
+     * Slow Sql string length can't beyond this limit. This value should be as same as the length annotation at the
+     * {@code org.apache.skywalking.oap.server.core.analysis.manual.database.TopNDatabaseStatement#statement}. And share
+     * the system env name, SW_SLOW_DB_THRESHOLD
      */
     @Setter
     @Getter
@@ -76,4 +78,11 @@ public class AnalyzerModuleConfig extends ModuleConfig {
 
     @Getter
     private final String configPath = "meter-receive-config";
+
+    /**
+     * Sample the trace segment if the segment has span(s) tagged as error status, and ignore the sampleRate configuration.
+     */
+    @Setter
+    @Getter
+    private boolean forceSampleErrorSegment = true;
 }

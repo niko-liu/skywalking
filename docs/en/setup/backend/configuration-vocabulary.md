@@ -29,10 +29,11 @@ core|default|role|Option values, `Mixed/Receiver/Aggregator`. **Receiver** mode 
 | - | - | serviceNameMaxLength| Max length limitation of service name.|SW_SERVICE_NAME_MAX_LENGTH|70|
 | - | - | instanceNameMaxLength| Max length limitation of service instance name. The max length of service + instance names should be less than 200.|SW_INSTANCE_NAME_MAX_LENGTH|70|
 | - | - | endpointNameMaxLength| Max length limitation of endpoint name. The max length of service + endpoint names should be less than 240.|SW_ENDPOINT_NAME_MAX_LENGTH|150|
-| - | - | gRPCThreadPoolSize|Pool size of gRPC server| - | CPU core * 4|
-| - | - | gRPCThreadPoolQueueSize| The queue size of gRPC server| - | 10000|
-| - | - | maxConcurrentCallsPerConnection | The maximum number of concurrent calls permitted for each incoming connection. Defaults to no limit. | - | - |
-| - | - | maxMessageSize | Sets the maximum message size allowed to be received on the server. Empty means 4 MiB | - | 4M(based on Netty) |
+| - | - | searchableTracesTags | Define the set of span tag keys, which should be searchable through the GraphQL. Multiple values should be separated through the comma. | SW_SEARCHABLE_TAG_KEYS | http.method,status_code,db.type,db.instance,mq.queue,mq.topic,mq.broker|
+| - | - | gRPCThreadPoolSize|Pool size of gRPC server| SW_CORE_GRPC_THREAD_POOL_SIZE | CPU core * 4|
+| - | - | gRPCThreadPoolQueueSize| The queue size of gRPC server| SW_CORE_GRPC_POOL_QUEUE_SIZE | 10000|
+| - | - | maxConcurrentCallsPerConnection | The maximum number of concurrent calls permitted for each incoming connection. Defaults to no limit. | SW_CORE_GRPC_MAX_CONCURRENT_CALL | - |
+| - | - | maxMessageSize | Sets the maximum message size allowed to be received on the server. Empty means 4 MiB | SW_CORE_GRPC_MAX_MESSAGE_SIZE | 4M(based on Netty) |
 | - | - | remoteTimeout |Timeout for cluster internal communication, in seconds.| - |20|
 | - | - | maxSizeOfNetworkAddressAlias|Max size of network address detected in the be monitored system.| - | 1_000_000|
 | - | - | maxPageSizeOfQueryProfileSnapshot|The max size in every OAP query for snapshot analysis| - | 500 |
@@ -73,12 +74,13 @@ core|default|role|Option values, `Mixed/Receiver/Aggregator`. **Receiver** mode 
 | - | - | password | Password of ElasticSearch cluster | SW_ES_PASSWORD | - |
 | - | - | trustStorePath | Trust JKS file path. Only work when user name and password opened | SW_STORAGE_ES_SSL_JKS_PATH | - |
 | - | - | trustStorePass | Trust JKS file password. Only work when user name and password opened | SW_STORAGE_ES_SSL_JKS_PASS | - |
-| - | - | indexShardsNumber | Shard number of new indexes | SW_STORAGE_ES_INDEX_SHARDS_NUMBER | 1 |
 | - | - | secretsManagementFile| Secrets management file in the properties format includes the username, password, which are managed by 3rd party tool. Provide the capability to update them in the runtime.|SW_ES_SECRETS_MANAGEMENT_FILE | - |
 | - | - | dayStep| Represent the number of days in the one minute/hour/day index.| SW_STORAGE_DAY_STEP | 1|
 | - | - | indexShardsNumber | Shard number of new indexes | SW_STORAGE_ES_INDEX_SHARDS_NUMBER | 1 |
-| - | - | superDatasetIndexShardsFactor | Super data set has been defined in the codes, such as trace segments. This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.|SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR|5 |
 | - | - | indexReplicasNumber | Replicas number of new indexes | SW_STORAGE_ES_INDEX_REPLICAS_NUMBER | 0 |
+| - | - | superDatasetDayStep | Represent the number of days in the super size dataset record index, the default value is the same as dayStep when the value is less than 0.|SW_SUPERDATASET_STORAGE_DAY_STEP|-1 |
+| - | - | superDatasetIndexShardsFactor | Super data set has been defined in the codes, such as trace segments. This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.|SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR|5 |
+| - | - | superDatasetIndexReplicasNumber | Represent the replicas number in the super size dataset record index.|SW_STORAGE_ES_SUPER_DATASET_INDEX_REPLICAS_NUMBER|0 |
 | - | - | bulkActions| Bulk size of the batch execution. | SW_STORAGE_ES_BULK_ACTIONS| 1000|
 | - | - | flushInterval| Period of flush, no matter `bulkActions` reached or not. Unit is second.| SW_STORAGE_ES_FLUSH_INTERVAL | 10|
 | - | - | concurrentRequests| The number of concurrent requests allowed to be executed. | SW_STORAGE_ES_CONCURRENT_REQUESTS| 2 |
@@ -98,11 +100,13 @@ core|default|role|Option values, `Mixed/Receiver/Aggregator`. **Receiver** mode 
 | - | - | secretsManagementFile| Secrets management file in the properties format includes the username, password, which are managed by 3rd party tool. Provide the capability to update them in the runtime.|SW_ES_SECRETS_MANAGEMENT_FILE | - |
 | - | - | dayStep| Represent the number of days in the one minute/hour/day index.| SW_STORAGE_DAY_STEP | 1|
 | - | - | indexShardsNumber | Shard number of new indexes | SW_STORAGE_ES_INDEX_SHARDS_NUMBER | 1 |
-| - | - | superDatasetIndexShardsFactor | Super data set has been defined in the codes, such as trace segments. This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.|SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR|5 |
 | - | - | indexReplicasNumber | Replicas number of new indexes | SW_STORAGE_ES_INDEX_REPLICAS_NUMBER | 0 |
+| - | - | superDatasetDayStep | Represent the number of days in the super size dataset record index, the default value is the same as dayStep when the value is less than 0.|SW_SUPERDATASET_STORAGE_DAY_STEP|-1 |
+| - | - | superDatasetIndexShardsFactor | Super data set has been defined in the codes, such as trace segments. This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.|SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR|5 |
+| - | - | superDatasetIndexReplicasNumber | Represent the replicas number in the super size dataset record index.|SW_STORAGE_ES_SUPER_DATASET_INDEX_REPLICAS_NUMBER|0 |
 | - | - | bulkActions| Bulk size of the batch execution. | SW_STORAGE_ES_BULK_ACTIONS| 1000|
 | - | - | flushInterval| Period of flush, no matter `bulkActions` reached or not. Unit is second.| SW_STORAGE_ES_FLUSH_INTERVAL | 10|
-| - | - | concurrentRequests| The number of concurrent requests allowed to be executed. |SW_STORAGE_ES_CONCURRENT_REQUESTS| 2 |
+| - | - | concurrentRequests| The number of concurrent requests allowed to be executed. | SW_STORAGE_ES_CONCURRENT_REQUESTS| 2 |
 | - | - | resultWindowMaxSize | The max size of dataset when OAP loading cache, such as network alias. | SW_STORAGE_ES_QUERY_MAX_WINDOW_SIZE | 10000|
 | - | - | metadataQueryMaxSize | The max size of metadata per query. | SW_STORAGE_ES_QUERY_MAX_SIZE | 5000 |
 | - | - | segmentQueryMaxSize | The max size of trace segments per query. | SW_STORAGE_ES_QUERY_SEGMENT_SIZE | 200|
@@ -113,10 +117,14 @@ core|default|role|Option values, `Mixed/Receiver/Aggregator`. **Receiver** mode 
 | - | - | url | H2 connection URL. Default is H2 memory mode | SW_STORAGE_H2_URL | jdbc:h2:mem:skywalking-oap-db |
 | - | - | user | User name of H2 database. | SW_STORAGE_H2_USER | sa |
 | - | - | password | Password of H2 database. | - | - | 
-| - | - | metadataQueryMaxSize | The max size of metadata per query. | - | 5000 |
+| - | - | metadataQueryMaxSize | The max size of metadata per query. | SW_STORAGE_H2_QUERY_MAX_SIZE | 5000 |
+| - | - | maxSizeOfArrayColumn | Some entities, such as trace segment, include the logic column with multiple values. In the H2, we use multiple physical columns to host the values, such as, Change column_a with values [1,2,3,4,5] to `column_a_0 = 1, column_a_1 = 2, column_a_2 = 3 , column_a_3 = 4, column_a_4 = 5` | SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN | 20 |
+| - | - | numOfSearchableValuesPerTag | In a trace segment, it includes multiple spans with multiple tags. Different spans could have same tag keys, such as multiple HTTP exit spans all have their own `http.method` tag. This configuration set the limitation of max num of values for the same tag key. | SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG | 2 |
 | - |mysql| - | MySQL Storage. The MySQL JDBC Driver is not in the dist, please copy it into oap-lib folder manually | - | - |
 | - | - | properties | Hikari connection pool configurations | - | Listed in the `application.yaml`. |
-| - | - | metadataQueryMaxSize | The max size of metadata per query. | - | 5000 |
+| - | - | metadataQueryMaxSize | The max size of metadata per query. | SW_STORAGE_MYSQL_QUERY_MAX_SIZE | 5000 |
+| - | - | maxSizeOfArrayColumn | Some entities, such as trace segment, include the logic column with multiple values. In the MySQL, we use multiple physical columns to host the values, such as, Change column_a with values [1,2,3,4,5] to `column_a_0 = 1, column_a_1 = 2, column_a_2 = 3 , column_a_3 = 4, column_a_4 = 5` | SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN | 20 |
+| - | - | numOfSearchableValuesPerTag | In a trace segment, it includes multiple spans with multiple tags. Different spans could have same tag keys, such as multiple HTTP exit spans all have their own `http.method` tag. This configuration set the limitation of max num of values for the same tag key. | SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG | 2 |
 | - |influxdb| - | InfluxDB storage. |- | - |
 | - | - | url| InfluxDB connection URL. | SW_STORAGE_INFLUXDB_URL | http://localhost:8086|
 | - | - | user | User name of InfluxDB. | SW_STORAGE_INFLUXDB_USER | root|
@@ -128,18 +136,20 @@ core|default|role|Option values, `Mixed/Receiver/Aggregator`. **Receiver** mode 
 | agent-analyzer | default | Agent Analyzer. | SW_AGENT_ANALYZER | default |
 | - | -| sampleRate|Sampling rate for receiving trace. The precision is 1/10000. 10000 means 100% sample in default.|SW_TRACE_SAMPLE_RATE|10000|
 | - | - |slowDBAccessThreshold|The slow database access thresholds. Unit ms.|SW_SLOW_DB_THRESHOLD|default:200,mongodb:100|
+| - | - |forceSampleErrorSegment|When sampling mechanism activated, this config would make the error status segment sampled, ignoring the sampling rate.|SW_FORCE_SAMPLE_ERROR_SEGMENT|true|
 | receiver-sharing-server|default| Sharing server provides new gRPC and restful servers for data collection. Ana make the servers in the core module working for internal communication only.| - | - |
 | - | - | restHost| Binding IP of restful service. Services include GraphQL query and HTTP data report| - | - |
 | - | - | restPort | Binding port of restful service |  - | - |
 | - | - | restContextPath| Web context path of restful service| - | - |
-| - | - | gRPCHost|Binding IP of gRPC service. Services include gRPC data report and internal communication among OAP nodes| - | - |
-| - | - | gRPCPort| Binding port of gRPC service | - | - |
-| - | - | gRPCThreadPoolSize|Pool size of gRPC server| - | CPU core * 4|
-| - | - | gRPCThreadPoolQueueSize| The queue size of gRPC server| - | 10000|
-| - | - | gRPCSslEnabled| Activate SSL for gRPC service | - | - |
-| - | - | gRPCSslKeyPath| The file path of gRPC SSL key| - | - |
-| - | - | gRPCSslCertChainPath| The file path of gRPC SSL cert chain| - | - |
-| - | - | maxConcurrentCallsPerConnection | The maximum number of concurrent calls permitted for each incoming connection. Defaults to no limit. | - | - |
+| - | - | gRPCHost|Binding IP of gRPC service. Services include gRPC data report and internal communication among OAP nodes| SW_RECEIVER_GRPC_HOST | 0.0.0.0. Not Activated |
+| - | - | gRPCPort| Binding port of gRPC service | SW_RECEIVER_GRPC_PORT | Not Activated |
+| - | - | gRPCThreadPoolSize|Pool size of gRPC server| SW_RECEIVER_GRPC_THREAD_POOL_SIZE | CPU core * 4|
+| - | - | gRPCThreadPoolQueueSize| The queue size of gRPC server| SW_RECEIVER_GRPC_POOL_QUEUE_SIZE | 10000|
+| - | - | gRPCSslEnabled| Activate SSL for gRPC service | SW_RECEIVER_GRPC_SSL_ENABLED | false |
+| - | - | gRPCSslKeyPath| The file path of gRPC SSL key| SW_RECEIVER_GRPC_SSL_KEY_PATH | - |
+| - | - | gRPCSslCertChainPath| The file path of gRPC SSL cert chain| SW_RECEIVER_GRPC_SSL_CERT_CHAIN_PATH | - |
+| - | - | maxConcurrentCallsPerConnection | The maximum number of concurrent calls permitted for each incoming connection. Defaults to no limit. | SW_RECEIVER_GRPC_MAX_CONCURRENT_CALL | - |
+| - | - | authentication | The token text for the authentication. Work for gRPC connection only. Once this is set, the client is required to use the same token. | SW_AUTHENTICATION | - |
 | receiver-register|default| Read [receiver doc](backend-receivers.md) for more details | - | - |
 | receiver-trace|default| Read [receiver doc](backend-receivers.md) for more details | - | - |
 | receiver-jvm| default| Read [receiver doc](backend-receivers.md) for more details | - | - |

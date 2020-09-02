@@ -58,7 +58,7 @@ Motan:
   languages: Java
 MongoDB:
   id: 9
-  languages: Java,C#,Node.js
+  languages: Java,C#,Node.js,Python
 Resin:
   id: 10
   languages: Java
@@ -172,7 +172,7 @@ activemq-consumer:
   languages: Java
 Elasticsearch:
   id: 47
-  languages: Java
+  languages: Java,Python
 transport-client:
   id: 48
   languages: Java
@@ -311,6 +311,18 @@ GraphQL:
 spring-annotation:
   id: 93
   languages: Java
+HBase:
+  id: 94
+  languages: Java
+spring-kafka-consumer:
+  id: 95
+  languages: Java
+SpringScheduled:
+  id: 96
+  languages: Java
+quartz-scheduler:
+  id: 97
+  languages: Java
 
 # .NET/.NET Core components
 # [3000, 4000) for C#/.NET only
@@ -428,7 +440,9 @@ Django:
 Tornado:
   id: 7005
   languages: Python
-
+Urllib3:
+  id: 7006
+  languages: Python
 
 # PHP components
 # [8000, 9000) for PHP agent
@@ -491,5 +505,7 @@ Component-Server-Mappings:
   rest-high-level-client: Elasticsearch
   mariadb-jdbc: Mariadb
   Mysqli: Mysql
+  influxdb-java: InfluxDB
   Predis: Redis
   PyMysql: Mysql
+  spring-kafka-consumer: kafka-consumer
